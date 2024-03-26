@@ -20,21 +20,27 @@
 
     <h2>Tarefas Pendentes</h2>
 
+    <a href="/tasks/new" class="nes-btn is-primary">nova tarefa</a>
+
+    <div class="nes-container is-rounded is-dark" th:if="${message != null}">
+        <p th:text="${message}"></p>
+    </div>
+
     <section class="grid">
         <div th:each="task : ${tasks}" class="nes-container with-title">
-            <p class="title" th:text="${task}"></p>
-            <p>Good morning. Thou hast had a good night's sleep, I hope.</p>
+            <p class="title" th:text="${task.title}"></p>
+            <p th:text="${task.description}"></p>
             <a href="#" class="nes-badge is-icon">
                 <span class="is-warning"><i class="nes-icon coin is-small"></i></span>
-                <span class="is-primary">150</span>
+                <span class="is-primary" th:text="${task.score}"></span>
             </a>
-            <progress class="nes-progress is-success" value="50" max="100"></progress>
+            <progress class="nes-progress is-success" th:value="${task.status}" max="100"></progress>
 
             <details>
                 <summary>ações</summary>
                 <button type="button" class="nes-btn is-primary">pegar</button>
                 <button type="button" class="nes-btn is-warning">editar</button>
-                <button type="button" class="nes-btn is-error">apagar</button>
+                <a th:href="${'/tasks/delete/' + task.id}" class="nes-btn is-error">apagar</a>
 
             </details>
 

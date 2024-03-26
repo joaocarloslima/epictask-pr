@@ -29,3 +29,8 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
