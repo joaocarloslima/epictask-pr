@@ -34,3 +34,9 @@ body {
     max-width: 600px;
     margin: 0 auto;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}

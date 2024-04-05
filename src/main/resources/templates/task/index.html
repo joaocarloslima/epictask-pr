@@ -40,7 +40,12 @@
                 <summary>ações</summary>
                 <button type="button" class="nes-btn is-primary">pegar</button>
                 <button type="button" class="nes-btn is-warning">editar</button>
-                <a th:href="${'/tasks/delete/' + task.id}" class="nes-btn is-error">apagar</a>
+                <form th:action="${'/tasks/' + task.id}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button class="nes-btn is-error">
+                        apagar
+                    </button>
+                </form>
 
             </details>
 
