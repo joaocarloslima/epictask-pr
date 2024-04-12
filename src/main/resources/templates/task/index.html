@@ -16,6 +16,13 @@
 
 <body>
 
+    <nav>
+        <span th:text="${user}"></span>
+        <img th:src="${avatar}" alt="avatar do usuário" class="nes-avatar is-medium is-rounded">
+        <a href="/logout" class="nes-btn">
+            sair
+        </a>
+    </nav>
     <h1>Epic Task</h1>
 
     <h2>Tarefas Pendentes</h2>

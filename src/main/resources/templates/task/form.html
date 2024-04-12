@@ -20,7 +20,7 @@
 
     <h2 th:text="#{task.create}"></h2>
 
-    <form action="/tasks" class="container" method="POST" th:object="${task}">
+    <form th:action="${'/tasks'}" class="container" method="POST" th:object="${task}">
         <div class="nes-field">
             <label for="title">Título</label>
             <input th:field="*{title}" class="nes-input" th:classappend="${#fields.hasErrors('title')} ? is-error" >
