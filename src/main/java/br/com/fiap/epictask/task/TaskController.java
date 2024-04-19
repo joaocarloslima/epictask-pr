@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,10 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.fiap.epictask.user.User;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("tasks")
+@Slf4j
 public class TaskController {
 
     @Autowired
@@ -29,7 +31,10 @@ public class TaskController {
     MessageSource messageSource;
 
     @GetMapping
-    public String index(Model model, @AuthenticationPrincipal OAuth2User user){
+    public String index(Model model, @AuthenticationPrincipal DefaultOAuth2User user){
+        User myuser = (User) user;
+        log.info("usuario carregado: "+ myuser);
+        
         model.addAttribute("tasks", repository.findAll());
         model.addAttribute("user", user.getAttribute("name"));
         model.addAttribute("avatar", user.getAttribute("avatar_url"));
