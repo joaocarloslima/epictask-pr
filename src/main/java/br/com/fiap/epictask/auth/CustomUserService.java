@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import br.com.fiap.epictask.user.User;
 import br.com.fiap.epictask.user.UserRepository;
 
 @Service
@@ -27,7 +28,7 @@ public class CustomUserService extends DefaultOAuth2UserService {
             return user.get();
         }
 
-        return oAuth2User;
+        return repository.save(new User(oAuth2User));
     }
 
     

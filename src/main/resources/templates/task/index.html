@@ -36,6 +36,12 @@
     <section class="grid">
         <div th:each="task : ${tasks}" class="nes-container with-title">
             <p class="title" th:text="${task.title}"></p>
+            <div class="avatar-wrapper" th:if="${task.user}">
+                <img 
+                    class="nes-avatar is-rounded is-medium" alt="avatar do usuário da tarefa" 
+                    th:src="${task.user.avatarUrl}" style="image-rendering: pixelated;">
+            </div>
+
             <p th:text="${task.description}"></p>
             <a href="#" class="nes-badge is-icon">
                 <span class="is-warning"><i class="nes-icon coin is-small"></i></span>
@@ -43,18 +49,37 @@
             </a>
             <progress class="nes-progress is-success" th:value="${task.status}" max="100"></progress>
 
-            <details>
-                <summary>ações</summary>
-                <button type="button" class="nes-btn is-primary">pegar</button>
-                <button type="button" class="nes-btn is-warning">editar</button>
-                <form th:action="${'/tasks/' + task.id}" method="post">
-                    <input type="hidden" name="_method" value="delete"/>
-                    <button class="nes-btn is-error">
-                        apagar
-                    </button>
-                </form>
+            <div class="actions">
 
-            </details>
+            <form th:action="${'/tasks/catch/' + task.id}" method="POST" th:if="${task.user == null}">
+                <button type="submit" class="nes-btn is-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hand"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+                </button>
+            </form>
+            <form th:action="${'/tasks/drop/' + task.id}" method="POST" th:if="${task.user == principal}">
+                <button type="submit" class="nes-btn is-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grab"><path d="M18 11.5V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v1.4"/><path d="M14 10V8a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 9.9V9a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5"/><path d="M6 14v0a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M18 11v0a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-4a8 8 0 0 1-8-8 2 2 0 1 1 4 0"/></svg>
+                </button>
+            </form>
+            <form th:action="${'/tasks/dec/' + task.id}" method="POST" th:if="${task.status != 0}">
+                <button type="submit" class="nes-btn is-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus"><path d="M5 12h14"/></svg>
+                </button>
+            </form>
+            <form th:action="${'/tasks/inc/' + task.id}" method="POST" th:if="${task.status != 100}">
+                <button type="submit" class="nes-btn is-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                </button>
+            </form>
+
+            <form th:action="${'/tasks/' + task.id}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <button class="nes-btn is-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+            </form>
+        </div>
+
 
 
         </div>

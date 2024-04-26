@@ -28,6 +28,9 @@ public class TaskController {
     TaskRepository repository;
 
     @Autowired
+    TaskService service;
+
+    @Autowired
     MessageSource messageSource;
 
     @GetMapping
@@ -38,6 +41,7 @@ public class TaskController {
         model.addAttribute("tasks", repository.findAll());
         model.addAttribute("user", user.getAttribute("name"));
         model.addAttribute("avatar", user.getAttribute("avatar_url"));
+        model.addAttribute("principal", myuser);
         return "task/index";
     }
 
@@ -66,6 +70,34 @@ public class TaskController {
 
         repository.save(task);
         redirect.addFlashAttribute("message", "Tarefa cadastrada com sucesso");
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/catch/{id}")
+    public String catchTask(@PathVariable Long id, @AuthenticationPrincipal DefaultOAuth2User user){
+        User myuser = (User) user;
+        service.catchTask(id, myuser);
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/drop/{id}")
+    public String dropTask(@PathVariable Long id, @AuthenticationPrincipal DefaultOAuth2User user){
+        User myuser = (User) user;
+        service.dropTask(id, myuser);
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/inc/{id}")
+    public String inc(@PathVariable Long id, @AuthenticationPrincipal DefaultOAuth2User user){
+        User myuser = (User) user;
+        service.inc(id, myuser);
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/dec/{id}")
+    public String dec(@PathVariable Long id, @AuthenticationPrincipal DefaultOAuth2User user){
+        User myuser = (User) user;
+        service.dec(id, myuser);
         return "redirect:/tasks";
     }
 

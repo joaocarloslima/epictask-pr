@@ -40,3 +40,12 @@ form {
     flex-direction: column;
     gap: 1.5rem;
 }
+
+.avatar-wrapper {
+    display: flex;
+    justify-content: end;
+}
+
+.actions {
+    display: flex;
+}
