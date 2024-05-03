@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.epictask.user.User;
+import br.com.fiap.epictask.user.UserService;
 
 @Service
 public class TaskService {
 
     @Autowired
     TaskRepository repository;
+
+    @Autowired
+    UserService userService;
 
     public void catchTask(Long id, User myuser) {
         var task = repository.findById(id).orElseThrow(
@@ -41,8 +45,12 @@ public class TaskService {
             () -> new IllegalArgumentException("tarefa não encontrada")
         );
         if (task.getStatus() +10 > 100) return;
-
         task.setStatus(task.getStatus() + 10);
+        
+        if (task.getStatus() == 100){
+            userService.addScore(myuser, task.getScore());
+        }
+        
         repository.save(task);
     }
 

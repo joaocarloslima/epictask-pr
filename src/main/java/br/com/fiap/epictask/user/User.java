@@ -28,7 +28,7 @@ public class User extends DefaultOAuth2User {
     @Column(unique = true)
     private String email;
     private String avatarUrl;
-    private Integer score;
+    private Integer score = 0;
 
     public User(){
         super(
